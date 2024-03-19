@@ -1,0 +1,229 @@
+1. Добавить код настроек в settings.html
+2. Создать сниппет running-line и вставить в него код. css в сниппете (Опционально - можно вынести в scss общие, или создать свой файл)
+3. Включить в нужном месте через {% include 'running-line' %}
+
+///////////код настроек в settings.html//////////////////////////
+<fieldset>
+  <legend>Бегущая строка</legend>
+  <table>
+    <tr>
+      <td> <label for="run_text_use">Включить бегущую строку?</label> </td>
+      <td> <input name="run_text_use" id="run_text_use" type="checkbox" /></td>
+    </tr>
+     <tr>
+      <td> <label for="run_text_index_use">Бегущая строка только на главной странице? Иначе на всех</label> </td>
+      <td> <input name="run_text_index_use" id="run_text_index_use" type="checkbox" /></td>
+    </tr>
+    <tr>
+      <td> <label for="run-color_text">Цвет текста</label> </td>
+      <td> <input class="color" id="run-color_text" name="run-color_text" value="#cccccc" /> </td>
+    </tr>
+    <tr>
+      <td> <label for="run-backgroundcolor_text">Цвет фона текста</label> </td>
+      <td> <input class="color" id="run-backgroundcolor_text" name="run-backgroundcolor_text" value="#cccccc" /> </td>
+    </tr>
+    <tr>
+      <td> <label for="run-backgroundcolor_wrap">Цвет фона поля</label> </td>
+      <td> <input class="color" id="run-backgroundcolor_wrap" name="run-backgroundcolor_wrap" value="#cccccc" /> </td>
+    </tr>
+    <tr>
+      <td> <label for="run-speed-text">Скорость движения - чем меньше, тем быстрей</label></td>
+  	</tr>
+  	<tr>
+      <td> <input class="style_element" name="run-speed-text" id="run-speed-text" type="range" min="5" max="300" step="1" value="90" /></td>
+  	</tr>
+    <tr>
+      <td><label for="run_text_text">Текст 1 бегущей строки</label></td>
+      <td><input name="run_text_text" id="run_text_text" type="text" /></td>
+    </tr>
+    <tr>
+      <td><label for="run_text_link">Ссылка 1</label></td>
+      <td><input name="run_text_link" id="run_text_link" type="text" /></td>
+    </tr>
+    <tr>
+      <td><label for="run_text_text2">Текст 2 бегущей строки</label></td>
+      <td><input name="run_text_text2" id="run_text_text2" type="text" /></td>
+    </tr>
+    <tr>
+      <td><label for="run_text_link2">Ссылка 2</label></td>
+      <td><input name="run_text_link2" id="run_text_link2" type="text" /></td>
+    </tr>
+    <tr>
+      <td><label for="run_text_text3">Текст 3 бегущей строки</label></td>
+      <td><input name="run_text_text3" id="run_text_text3" type="text" /></td>
+    </tr>
+    <tr>
+      <td><label for="run_text_link3">Ссылка 3</label></td>
+      <td><input name="run_text_link3" id="run_text_link3" type="text" /></td>
+    </tr>
+    <tr>
+      <td><label for="run_text_text4">Текст 4 бегущей строки</label></td>
+      <td><input name="run_text_text4" id="run_text_text4" type="text" /></td>
+    </tr>
+    <tr>
+      <td><label for="run_text_link4">Ссылка 4</label></td>
+      <td><input name="run_text_link4" id="run_text_link4" type="text" /></td>
+    </tr>
+    <tr>
+      <td><label for="run_text_text5">Текст 5 бегущей строки</label></td>
+      <td><input name="run_text_text5" id="run_text_text5" type="text" /></td>
+    </tr>
+    <tr>
+      <td><label for="run_text_link5">Ссылка 5</label></td>
+      <td><input name="run_text_link5" id="run_text_link5" type="text" /></td>
+    </tr>
+   
+  </table>
+</fieldset>
+
+
+////////////////////////////// код running-line ////////////////////////////////////////////////
+{% if settings.run_text_use %}
+    	
+              <div class="run-text {% if settings.run_text_index_use %}{% unless page.title contains 'Главная страница'%} hide-run {% endunless %}{%endif%}" >
+                <div class="wrap">
+                    <div class="items-wrap">
+                      <div class="items marquee">
+                        {% for i in (0..5) %}
+                        {% if settings.run_text_link and settings.run_text_text != '' %}<div class="item"><a href="{{ settings.run_text_link }}">{{settings.run_text_text}}</a></div>{%endif%}
+                        {% if settings.run_text_link2 and  settings.run_text_text2 != '' %}<div class="item"><a href="{{ settings.run_text_link2 }}">{{settings.run_text_text2}}</a></div>{%endif%}
+                        {% if settings.run_text_link3 and  settings.run_text_text3 != '' %}<div class="item"><a href="{{ settings.run_text_link3 }}">{{settings.run_text_text3}}</a></div>{%endif%}
+                        {% if settings.run_text_link4 and  settings.run_text_text4 != '' %}<div class="item"><a href="{{ settings.run_text_link4 }}">{{settings.run_text_text4}}</a></div>{%endif%}
+                        {% if settings.run_text_link5 and  settings.run_text_text5 != '' %}<div class="item"><a href="{{ settings.run_text_link5 }}">{{settings.run_text_text5}}</a></div>{%endif%}
+                        {% endfor %}
+                      </div>
+                      <div aria-hidden="true" class="items marquee">
+                        {% for i in (0..5) %}
+                        {% if settings.run_text_link and  settings.run_text_text != '' %}<div class="item"><a href="{{ settings.run_text_link }}">{{settings.run_text_text}}</a></div>{%endif%}
+                        {% if settings.run_text_link2 and  settings.run_text_text2 != '' %}<div class="item"><a href="{{ settings.run_text_link2 }}">{{settings.run_text_text2}}</a></div>{%endif%}
+                        {% if settings.run_text_link3 and  settings.run_text_text3 != '' %}<div class="item"><a href="{{ settings.run_text_link3 }}">{{settings.run_text_text3}}</a></div>{%endif%}
+                        {% if settings.run_text_link4 and  settings.run_text_text4 != '' %}<div class="item"><a href="{{ settings.run_text_link4 }}">{{settings.run_text_text4}}</a></div>{%endif%}
+                        {% if settings.run_text_link5 and  settings.run_text_text5 != '' %}<div class="item"><a href="{{ settings.run_text_link5 }}">{{settings.run_text_text5}}</a></div>{%endif%}
+                        {% endfor %}
+                      </div>
+                    </div>
+				</div>
+              </div>
+    {%endif%}
+    
+
+
+<style>
+a{
+  text-decoration: none;
+  color: {{settings.run-color_text}};
+}
+.run-text{
+    width: 100%;
+  }
+  .wrap {
+  
+  margin: auto;
+  padding: 5px;
+}
+.items-wrap {
+  position: relative;
+  display: flex;
+  overflow: hidden;
+  user-select: none;
+  gap: 5px;
+  background: {{settings.run-backgroundcolor_wrap}};
+}
+.items-wrap:before,
+.items-wrap:after {
+  content: "";
+  height: 100%;
+  top: 0;
+  width: 10%;
+  position: absolute;
+  z-index: 1;
+  pointer-events: none;
+}
+.items-wrap:before {
+  left: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(255, 255, 255, 0) 100%
+  );
+}
+.items-wrap:after {
+  right: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 1) 100%
+  );
+}
+.items {
+  flex-shrink: 0;
+  display: flex;
+  gap: 5px;
+  counter-reset: item;
+  justify-content: space-around;
+  min-width: 100%;
+}
+.item {
+  background: {{settings.run-backgroundcolor_text}};
+  flex: 0 0 auto;
+  counter-increment: item;
+  border-radius: 6px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
+  margin: 10px 0;
+  transition: all 0.1s ease-in-out;
+  padding: 3px 10px 3px 10px;
+}
+.item:hover {
+  transform: scale(1, 1.09);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+
+
+.marquee {
+  animation: scroll {{settings.run-speed-text}}s linear infinite;
+}
+.reverce {
+  animation-direction: reverse;
+}
+.items-wrap:hover .marquee {
+  animation-play-state: paused;
+}
+
+.perfscan {
+  margin: 20px 0;
+  text-align: center;
+  bottom: 0;
+  background: #fff;
+  padding: 5px;
+}
+.perfscan hr {
+  border: solid #999;
+  border-width: 1px 0 0 0;
+  max-width: 50%;
+  margin: 0 auto 20px;
+}
+.perfscan a {
+  color: #000;
+  font-weight: bold;
+}
+
+@keyframes scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(-100% - 20px));
+  }
+}
+.hide-run{
+  display:none;
+  }
+
+
+</style>
