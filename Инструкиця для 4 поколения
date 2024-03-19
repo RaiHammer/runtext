@@ -1,0 +1,338 @@
+Инструкиця для 4 поколения.Работает без JS
+Или ипорт архива, или копировать код в соответствующие разделы.
+При копировании кода - желательно использовать блочный виджет с заголовком и ссылкой
+
+\\\\\\\\\\\\\\\\\\\\\\\\\\HTML\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+{% if widget_settings.run_text_use %}
+  {% if data.blocks.size > 0 %}
+    <div class="run-text {% if widget_settings.run_text_index_use %}{% unless page.title contains 'Главная страница'%} hide-run {% endunless %}{%endif%}" >
+      <div class="wrap">
+        <div class="items-wrap">
+            <div class="items marquee">
+              {% for i in (0..5) %}
+                  {% for block in data.blocks %}
+                    <div class="item"><a href="{{ block.link }}">{{ block.text }}</a></div>
+                  {% endfor %}
+                {% endfor %}
+            </div>
+            <div aria-hidden="true" class="items marquee">
+              {% for i in (0..5) %}
+                  {% for block in data.blocks %}
+                    <div class="item"><a href="{{ block.link }}">{{ block.text }}</a></div>
+                  {% endfor %}
+              {% endfor %}
+             </div>
+          </div>
+				</div>
+    </div>
+  {%endif%}
+{%endif%}
+
+\\\\\\\\\\\\\\\\\\\\\\\\\\CSS\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+a{
+  text-decoration: none;
+  color: var(--run-color_text);
+  font-size: var(--run-font-size);
+}
+.run-text{
+    width: 100%;
+  }
+.wrap {
+  margin: auto;
+  padding: 5px;
+}
+.items-wrap {
+  position: relative;
+  display: flex;
+  overflow: hidden;
+  user-select: none;
+  gap: 5px;
+  background: var(--run-backgroundcolor_wrap);
+}
+.items-wrap:before,
+.items-wrap:after {
+  content: "";
+  height: 100%;
+  top: 0;
+  width: 10%;
+  position: absolute;
+  z-index: 1;
+  pointer-events: none;
+}
+.items-wrap:before {
+  left: 0;
+  background: linear-gradient(
+    90deg,
+    var(--run-backgroundcolor_wrap) 0%,
+    rgba(255, 255, 255, 0) 100%
+  );
+}
+.items-wrap:after {
+  right: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    var(--run-backgroundcolor_wrap) 100%
+  );
+}
+.items {
+  flex-shrink: 0;
+  display: flex;
+  gap: 5px;
+  counter-reset: item;
+  justify-content: space-around;
+  min-width: 100%;
+}
+.item {
+  background: var(--run-backgroundcolor_text);
+  flex: 0 0 auto;
+  counter-increment: item;
+  border-radius: 6px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: var(--run-font-size);
+  font-weight: bold;
+  color: var(--run-color_text);
+  margin: 10px 0;
+  transition: all 0.1s ease-in-out;
+  padding: 3px 10px 3px 10px;
+}
+.item:hover {
+  transform: scale(1.01);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+
+
+.marquee {
+  animation: scroll var(--run-time) linear infinite;
+}
+.reverce {
+  animation-direction: reverse;
+}
+.items-wrap:hover .marquee {
+  animation-play-state: paused;
+}
+
+.perfscan {
+  margin: 20px 0;
+  text-align: center;
+  bottom: 0;
+  background: #fff;
+  padding: 5px;
+}
+.perfscan hr {
+  border: solid #999;
+  border-width: 1px 0 0 0;
+  max-width: 50%;
+  margin: 0 auto 20px;
+}
+.perfscan a {
+  color: #000;
+  font-weight: bold;
+}
+
+@keyframes scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(-100% - 20px));
+  }
+}
+.hide-run{
+  display:none;
+}
+
+\\\\\\\\\\\\\\\\\\\\\\\\\\Форма настроек(JSON)\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+{
+  "content": [
+    {
+      "items": [
+        {
+          "class": "checkbox",
+          "name": "run_text_use",
+          "label": "Включить бегущую строку?",
+          "value": null,
+          "type": "checkbox"
+        },
+        {
+          "class": "checkbox",
+          "name": "run_text_index_use",
+          "label": "Бегущая строка только на главной странице? Иначе на всех",
+          "help":"Настройка действительна, если виджет находится в шапке или футере",
+          "value": null,
+          "type": "checkbox"
+        }
+      ]
+    }
+  ],
+  "design": [
+      {
+      "type": "group",
+      "name": "дизайн строки",
+      "items": [
+        {
+          "name":"run-color_text",
+          "label":"Цвет текста",
+          "value":"#ffffff",
+          "help":"",
+          "type":"color",
+          "clearable": true
+        },
+        {
+          "name":"run-backgroundcolor_text",
+          "label":"Цвет фона текста",
+          "value":"#ffffff",
+          "help":"",
+          "type":"color",
+          "clearable": true
+        },
+        {
+          "name":"run-backgroundcolor_wrap",
+          "label":"Цвет фона поля",
+          "value":"#ffffff",
+          "help":"",
+          "type":"color",
+          "clearable": true
+        },
+        {
+          "class": "range",
+          "name": "run-font-size",
+          "min": 1,
+          "max": 56,
+          "step": 1,
+          "label": "Размер шрифта",
+          "type": "number",
+          "with_btns": true,
+          "unit": "px"
+        },
+        {
+          "class": "range",
+          "name": "run-time",
+          "min": 5,
+          "max": 500,
+          "step": 1,
+          "label": "Время прокрутки строки",
+          "help":" За сколько секунд отобразится анимация. Чем меньше времени, тем быстрей",
+          "type": "number",
+          "with_btns": true,
+          "unit": "s"
+        }
+      ]
+    },
+    {
+      "type": "group",
+      "name": "{{ messages.background }}",
+      "items": [
+        {
+          "name": "bg",
+          "label": "{{ messages.widget_background_color }}",
+          "value": "",
+          "type": "color",
+          "clearable": true
+        },
+        {
+          "class": "checkbox",
+          "name": "layout-wide-bg",
+          "label": "{{ messages.wide_background }}",
+          "value": null,
+          "type": "checkbox"
+        }
+      ]
+    },
+    {
+      "type": "group",
+      "name": "{{ messages.indentation }}",
+      "items": [
+        {
+          "class": "range",
+          "name": "layout-pt",
+          "min": 0,
+          "max": 10,
+          "step": 0.5,
+          "label": "{{ messages.padding_top }}",
+          "type": "number",
+          "with_btns": true,
+          "unit": "vw"
+        },
+        {
+          "class": "range",
+          "name": "layout-pb",
+          "min": 0,
+          "max": 10,
+          "step": 0.5,
+          "label": "{{ messages.padding_bottom }}",
+          "type": "number",
+          "with_btns": true,
+          "unit": "vw"
+        }
+      ]
+    },
+    {
+      "type": "group",
+      "name": "{{ messages.content }}",
+      "items": [
+        {
+          "class": "number",
+          "name": "layout-content-max-width",
+          "min": 750,
+          "max": 2000,
+          "label": "{{ messages.content_max_width }}",
+          "type": "number",
+          "unit": "px"
+        },
+        {
+          "class": "checkbox",
+          "name": "layout-wide-content",
+          "label": "{{ messages.wide_content }}",
+          "value": null,
+          "type": "checkbox"
+        },
+        {
+          "class": "checkbox",
+          "name": "layout-edge",
+          "label": "{{ messages.remove_padding_at_edges }}",
+          "value": null,
+          "type": "checkbox"
+        }
+      ]
+    },
+    {
+      "type": "group",
+      "name": "{{ messages.adaptive }}",
+      "items": [
+        {
+          "class": "checkbox",
+          "name": "hide-desktop",
+          "label": "{{ messages.hide_desktop }}",
+          "value": null,
+          "type": "checkbox"
+        },
+        {
+          "class": "checkbox",
+          "name": "hide-mobile",
+          "label": "{{ messages.hide_mobile }}",
+          "value": null,
+          "type": "checkbox"
+        }
+      ]
+    }
+  ]
+}
+
+\\\\\\\\\\\\\\\\\\\\\\\\\\Настройки по умолчанию(JSON)\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+{
+  "layout-wide-bg": true,
+  "layout-wide-content": false,
+  "layout-pt": 2,
+  "layout-pb": 0,
+  "hide-mobile": false,
+  "hide-desktop": false,
+  "run-color_text": "#000000" ,
+  "run-backgroundcolor_text": "#fff",
+  "run-backgroundcolor_wrap": "#fff",
+  "run-font-size": 16,
+  "run-time": 60
+}
